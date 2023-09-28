@@ -24,7 +24,10 @@ void loop()
   TData.update();
   if (millis()>nextdisplay) 
   {
-    ArtHorizon.horizon(TData.roll, TData.pitch);
+    // choose one of the following lines by removing comment:
+    //ArtHorizon.hud_horizon(TData.roll, TData.pitch); // western:HUD-Design
+    //ArtHorizon.art_horizon(TData.roll, TData.pitch);  // western: spheric design
+    ArtHorizon.soviet_horizon(TData.roll, TData.pitch);  // soviet: moving plane
     nextdisplay=millis()+50;
   };
   yield();

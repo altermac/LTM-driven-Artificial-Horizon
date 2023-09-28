@@ -6,14 +6,14 @@ class ArtHor_SSD1306
   public:
   
   void init();
-  void horizon(short roll, short pitch);
+  void hud_horizon(short roll, short pitch);
+  void art_horizon(short roll, short pitch);
+  void soviet_horizon(short roll, short pitch);
 
   private:
-  void drawPlane ();
   void drawHUDframe ();
   void drawHorizon(short roll, short pitch);
-  void fastRuPlane (short roll, short pitch); 
-  void SovietPlane (short roll, short pitch);
+  void sovietPlane (short roll, short pitch);
 
 };
 
