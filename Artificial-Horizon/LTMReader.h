@@ -1,13 +1,50 @@
 #ifndef _LTMReader_
 #define _LTMReader_
-
+#include <string.h>
 #include <SoftwareSerial.h>
+
+#ifndef LTM_RXPIN
+  #define LTM_RXPIN 14  // GPIO14
+#endif
+#define LTM_TXPIN -1  // No TX, only downstream
 
 
 static const char* fixTypes[] = {
   "NO",
+  "NO",
   "2D",
   "3D"
+};
+
+static const char* windrose[17]  {
+  "N","NNE","NE","ENE",
+  "E","ESE","SE","SSE",
+  "S","SSW","SW","WSW",
+  "W","WNW","NW","NNW","N"
+};
+
+// Flightmodes von Ardupilot?
+static const char* flightModes[] = {
+  "Manual",
+  "Rate",
+  "Angle",
+  "Horizon",
+  "Acro",
+  "Stabilized1",
+  "Stabilized2",
+  "Stabilized3",
+  "Altitude Hold",
+  "GPS Hold",
+  "Waypoints",
+  "Head free",
+  "Circle",
+  "RTH",
+  "Follow me",
+  "Land",
+  "Fly by wire A",
+  "Fly by wire B",
+  "Cruise",
+  "Unknown"
 };
 
 class LTMReader {
@@ -35,19 +72,15 @@ class LTMReader {
     uint8_t sensorStatus;
 
   private:
- 
+    byte readByte(uint8_t offset);
+    int readInt(uint8_t offset);
+    int16_t readInt16(uint8_t offset);  
+    int32_t readInt32(uint8_t offset);
+    float calc_dist(float flat1, float flon1, float flat2, float flon2);
 
-
-  byte readByte(uint8_t offset);
-  int readInt(uint8_t offset);
-  int16_t readInt16(uint8_t offset);  
-  int32_t readInt32(uint8_t offset);
-  float calc_dist(float flat1, float flon1, float flat2, float flon2);
-
-public:
-  void init();
-  void update();
-
+  public:
+    void init();
+    void update();
 };
 
 #endif // _LTMReader_

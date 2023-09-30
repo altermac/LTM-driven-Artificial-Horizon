@@ -1,4 +1,5 @@
 #include "ArtHor_SSD1306.h"
+#include "LTMReader.h"
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
@@ -29,7 +30,6 @@ void ArtHor_SSD1306::init() {
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   display.display();
-
 }
 void ArtHor_SSD1306::hud_horizon(short roll, short pitch) {
   display.clearDisplay(); // Clear display buffer
@@ -46,12 +46,59 @@ void ArtHor_SSD1306::art_horizon(short roll, short pitch) {
   display.display(); // Update screen
 }
 
-void ArtHor_SSD1306::soviet_horizon(short roll, short pitch) {
+void ArtHor_SSD1306::soviet_horizon(short roll, short pitch) 
+{
   display.clearDisplay(); // Clear display buffer
   drawHUDframe();
   sovietPlane(roll,pitch);
   display.display(); // Update screen
 }
+
+void ArtHor_SSD1306::dashboard(LTMReader& TData)
+{
+  short x1, y1, x2, y2, hoehe, index, index_p, roll, pitch;
+  display.clearDisplay(); // Clear display buffer
+  // Artificial Horizon top left 54x54
+  display.fillRect(0, 0, 55, 54, SSD1306_WHITE);
+  display.fillCircle(27, 27, 25, SSD1306_BLACK); 
+  roll=-TData.roll;
+  pitch=TData.pitch;
+  if (roll<0) {index=360+roll;} else {index=roll;};
+  if (pitch<0) {index_p=360+pitch;} else {index_p=pitch;};
+  x1 = 27*cosinus[index]/1000+27;
+  x2 = -27*cosinus[index]/1000+27;
+  hoehe = -27*sinus[index_p]/1000+27;
+  y1 = 27*sinus[index]/1000+hoehe;
+  y2 = -27*sinus[index]/1000+hoehe;
+  display.drawLine(x1, y1, x2, y2, SSD1306_WHITE);
+  display.drawBitmap(20,25,plane_bmp,16,5,SSD1306_WHITE);
+  // GPS-Info and other Info
+  display.setCursor(0,56);
+  display.print((double) TData.latitude/10000000,7);
+  display.print(" ");
+  display.print((double) TData.longitude/10000000,7);
+
+  display.setCursor(58, 0);
+  display.print("GPS-Fix: ");
+  display.print(fixTypes[TData.gpsFix]);
+  display.setCursor(58, 11);
+  display.print("Sats:   ");
+  display.print(TData.gpsSats);
+  display.setCursor(58, 22);
+  if (TData.armed){display.print("Armed");} else {display.print("Disarmed");}
+  display.setCursor(58, 33);
+  display.print("km/h:   ");
+  display.print(TData.groundSpeed);
+  display.setCursor(58, 44);
+  display.print("H:");
+  display.print(TData.heading);
+  index=round((TData.heading)/22.5);
+  display.print((char)247);
+  display.print("-");
+  display.print(windrose[index]);
+  display.display(); // Update screen
+}
+
 void ArtHor_SSD1306::drawHUDframe () 
 {
   display.drawLine(display.width()-20, 0, display.width()-20, display.height(), SSD1306_WHITE);
