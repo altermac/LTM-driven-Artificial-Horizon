@@ -1,5 +1,5 @@
 /* 
-  Artificial Horizon for SSD1306 OLED with LTM Reader Class
+  Artificial Horizon for SSD1306 OLED with LTMReader Class
   Copyright (c) 2023 altermac (MIT Licence)
 */
 
@@ -33,7 +33,7 @@ void loop()
     //ArtHorizon.dashboard(TData);  // Dashboard with western artificial horizon
     nextdisplay=millis()+50;
   };
-  yield();
+  yield(); // let the ESP8266 do some unrelated things
 }
 
 

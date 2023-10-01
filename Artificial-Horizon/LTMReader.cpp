@@ -1,6 +1,8 @@
 /* 
   LTM Reader Class
   Copyright (c) 2023 altermac (MIT Licence)
+  LTM based on https://github.com/KipK/Ghettostation/blob/master/GhettoStation/LightTelemetry.cpp implementation
+  and parts of ltm_telemetry_reader https://github.com/DzikuVx/ltm_telemetry_reader
 */
 
 #include "LTMReader.h"
@@ -16,10 +18,6 @@ enum ltmStates {
 };
 
 #define LONGEST_FRAME_LENGTH 18
-/*
-* LTM based on https://github.com/KipK/Ghettostation/blob/master/GhettoStation/LightTelemetry.cpp implementation
-*/
-
 #define GFRAMELENGTH 18
 #define AFRAMELENGTH 10
 #define SFRAMELENGTH 11

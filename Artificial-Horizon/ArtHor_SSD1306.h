@@ -21,7 +21,6 @@ class ArtHor_SSD1306
   void drawHUDframe ();
   void drawHorizon(short roll, short pitch);
   void sovietPlane (short roll, short pitch);
-
 };
 
 #endif

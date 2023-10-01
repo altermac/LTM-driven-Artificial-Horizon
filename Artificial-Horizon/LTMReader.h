@@ -1,11 +1,13 @@
 /* 
   LTM Reader Class
   Copyright (c) 2023 altermac (MIT Licence)
+  LTM based on https://github.com/KipK/Ghettostation/blob/master/GhettoStation/LightTelemetry.cpp implementation
+  and parts of ltm_telemetry_reader https://github.com/DzikuVx/ltm_telemetry_reader
 */
 #ifndef _LTMReader_
 #define _LTMReader_
 #include <string.h>
-#include <SoftwareSerial.h>
+#include <SoftwareSerial.h> 
 
 #ifndef LTM_RXPIN
   #define LTM_RXPIN 14  // GPIO14
