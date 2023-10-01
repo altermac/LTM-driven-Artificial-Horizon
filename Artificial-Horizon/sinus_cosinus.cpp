@@ -1,4 +1,7 @@
 /* 
+  Artificial Horizon for SSD1306 OLED
+  Copyright (c) 2023 altermac (MIT Licence)
+
   Precalculated table for Sinus and Cosinus *1000 as short
   Don't forget zero, there are values from 0-360 degrees.
 */

@@ -1,3 +1,7 @@
+/* 
+  LTM Reader Class
+  Copyright (c) 2023 altermac (MIT Licence)
+*/
 #ifndef _LTMReader_
 #define _LTMReader_
 #include <string.h>

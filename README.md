@@ -1,2 +1,10 @@
 # LTM driven Artificial Horizon
- Use flightcontroller LTM telemetry to display a live artificial horizon on a 0.96" OLED display
+When you fly FPV with an Cockpit-Camera you might wan’t some eyecandy on the dashboard of your
+plane. With this project I use a Generic NodeMCU ESP8266 to display an artificial horizon on 
+a 0.96“ SSD1306 OLED display. Both components together need only a 5V power supply with low current.
+ 
+LTMReader Class is based on parts of ltm_telemetry_reader from Paweł Spychalski. (originaly found 
+at https://github.com/DzikuVx/ltm_telemetry_reader).
+
+You will find a detailed HowTo in the Documentation folder, the Artificial-Horizon folder contains 
+the complete Arduino sketch.

@@ -1,3 +1,8 @@
+/* 
+  LTM Reader Class
+  Copyright (c) 2023 altermac (MIT Licence)
+*/
+
 #include "LTMReader.h"
 
 SoftwareSerial ltmSerial(LTM_RXPIN, LTM_TXPIN);

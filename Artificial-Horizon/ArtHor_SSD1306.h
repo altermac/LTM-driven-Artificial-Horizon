@@ -1,3 +1,8 @@
+/* 
+  Artificial Horizon for SSD1306 OLED
+  Copyright (c) 2023 altermac (MIT Licence)
+*/
+
 #ifndef _ArtHor_SSD1306_
 #define _ArtHor_SSD1306_
 #include "LTMReader.h"
