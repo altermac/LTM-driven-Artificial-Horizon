@@ -11,7 +11,7 @@ class ArtHor_SSD1306
 {
   public:
   
-  void init();
+  void init(int pinSDA = SDA, int pinSCL = SCL);
   void hud_horizon(short roll, short pitch);
   void art_horizon(short roll, short pitch);
   void soviet_horizon(short roll, short pitch);

@@ -12,7 +12,7 @@
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
-#define PI 3.1415926536
+
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #include "sinus_cosinus.cpp"
 
@@ -25,7 +25,8 @@ static const unsigned char PROGMEM plane_bmp[] =
   0b00000111, 0b11100000
 };
 
-void ArtHor_SSD1306::init() {
+void ArtHor_SSD1306::init(int pinSDA, int pinSCL) {
+  Wire.begin(pinSDA, pinSCL);
   // Initialize OLED-display
   if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
