@@ -152,7 +152,6 @@ void LTMReader::update()
             } else {
               homeFix=true;
             }
-            homeFix = raw & 0x03;
         }
         if (frameType == 'X') {
             hdop = readInt(0);
