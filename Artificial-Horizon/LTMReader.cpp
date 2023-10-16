@@ -1,8 +1,6 @@
 /* 
   LTM Reader Class
   Copyright (c) 2023 altermac (MIT Licence)
-  LTM based on https://github.com/KipK/Ghettostation/blob/master/GhettoStation/LightTelemetry.cpp implementation
-  and parts of ltm_telemetry_reader https://github.com/DzikuVx/ltm_telemetry_reader
 */
 
 #include "LTMReader.h"
@@ -28,10 +26,10 @@ enum ltmStates {
 uint8_t serialBuffer[LONGEST_FRAME_LENGTH];
 uint8_t state = IDLE;
 char frameType;
-byte frameLength;
-byte receiverIndex;
+char frameLength;
+char receiverIndex;
 
-byte LTMReader::readByte(uint8_t offset) {
+char LTMReader::readByte(uint8_t offset) {
   return serialBuffer[offset];
 }
 
@@ -40,7 +38,7 @@ int LTMReader::readInt(uint8_t offset) {
   //return (int) (serialBuffer[offset + 1] << 8 |serialBuffer[offset] );
 }
 
-short LTMReader::readInt16(uint8_t offset) {
+int16_t LTMReader::readInt16(uint8_t offset) {
   return (int16_t) serialBuffer[offset] + ((int) serialBuffer[offset + 1] << 8);
 }
 
@@ -51,6 +49,7 @@ int32_t LTMReader::readInt32(uint8_t offset) {
 void LTMReader::init()
 {
   ltmSerial.begin(9600);
+  ltm_update = false;
 }
 
 void LTMReader::update() 
@@ -114,11 +113,22 @@ void LTMReader::update()
         }
 
         if (frameType == 'S') {
-            voltage = readInt(0);
+            voltage = readInt16(0);
+            capacityUsed = readInt16(2);
             rssi = readByte(4);
-
-            byte raw = readByte(6);
+            airspeed = readByte(5);
+            char raw = readByte(6);
             flightmode = raw >> 2;
+            if (raw&(1<<0)) {
+              armed=true;
+            } else {
+              armed=false;
+            }
+            if (raw&(1<<1)) {
+              failsafe=true;
+            } else {
+              failsafe=false;
+            }
         }
 
         if (frameType == 'G') {
@@ -131,7 +141,19 @@ void LTMReader::update()
             gpsSats = raw >> 2;
             gpsFix = raw & 0x03;
         }
+        if (frameType == 'O') {
+            homeLatitude = readInt32(0);
+            homeLongitude = readInt32(4);
+            homeAltitude = readInt32(8);
 
+            uint8_t raw = readByte(13);
+            if (raw==0) {
+              homeFix=false;
+            } else {
+              homeFix=true;
+            }
+            homeFix = raw & 0x03;
+        }
         if (frameType == 'X') {
             hdop = readInt(0);
             sensorStatus = readByte(2);
@@ -139,6 +161,7 @@ void LTMReader::update()
       
         state = IDLE;
         memset(serialBuffer, 0, LONGEST_FRAME_LENGTH);
+        ltm_update = true;
 
       } else {
         /*

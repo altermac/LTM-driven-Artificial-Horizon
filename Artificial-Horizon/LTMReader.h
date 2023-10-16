@@ -1,8 +1,6 @@
 /* 
   LTM Reader Class
   Copyright (c) 2023 altermac (MIT Licence)
-  LTM based on https://github.com/KipK/Ghettostation/blob/master/GhettoStation/LightTelemetry.cpp implementation
-  and parts of ltm_telemetry_reader https://github.com/DzikuVx/ltm_telemetry_reader
 */
 #ifndef _LTMReader_
 #define _LTMReader_
@@ -59,10 +57,12 @@ class LTMReader {
     short roll;
     short heading;
     uint16_t voltage;
-    byte rssi;
+    uint16_t capacityUsed;
+    unsigned char rssi;
+    unsigned char airspeed;
     bool armed;
     bool failsafe;
-    byte flightmode;
+    unsigned char flightmode;
 
     int32_t latitude;
     int32_t longitude;
@@ -74,11 +74,14 @@ class LTMReader {
 
     int32_t homeLatitude;
     int32_t homeLongitude;
+    int32_t homeAltitude;
+    bool homeFix;
 
     uint8_t sensorStatus;
+    bool ltm_update;
 
   private:
-    byte readByte(uint8_t offset);
+    char readByte(uint8_t offset);
     int readInt(uint8_t offset);
     int16_t readInt16(uint8_t offset);  
     int32_t readInt32(uint8_t offset);
