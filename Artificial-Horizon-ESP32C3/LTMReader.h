@@ -1,20 +1,12 @@
 /* 
   LTM Reader Class
   Copyright (c) 2023 altermac (MIT Licence)
-  LTM based on https://github.com/KipK/Ghettostation/blob/master/GhettoStation/LightTelemetry.cpp implementation
-  and parts of ltm_telemetry_reader https://github.com/DzikuVx/ltm_telemetry_reader
+  LTM based on GitHub\inav\src\main\telemetry\LTM.h and LTM.c
 */
 #ifndef _LTMReader_
 #define _LTMReader_
 #include <string.h>
 #include <HardwareSerial.h> 
-
-#ifndef LTM_RXPIN
-#define LTM_RXPIN 14  // GPIO14
-#endif
-#ifndef LTM_TXPIN
-#define LTM_TXPIN -1  // No TX, only downstream
-#endif
 
 static const char* fixTypes[] = {
   "NO",
@@ -30,28 +22,30 @@ static const char* windrose[17]  {
   "W","WNW","NW","NNW","N"
 };
 
-// Flightmodes von Ardupilot?
+// Flightmodes for INAV: Modes not commented with inav are not used.
 static const char* flightModes[] = {
-  "Manual",
-  "Rate",
-  "Angle",
-  "Horizon",
+  "Manual", // inav 
+  "Acro", // inav (was "Rate") This is 'catch all' for everything else
+  "Angle", // inav 
+  "Horizon", // inav 
   "Acro",
   "Stabilized1",
   "Stabilized2",
   "Stabilized3",
-  "Altitude Hold",
-  "GPS Hold",
-  "Waypoints",
-  "Head free",
+  "Altitude Hold", // inav
+  "NAV Loiter" // inav (was "GPS Hold")
+  "NAV WP", // inav (was "Waypoints")
+  "Heading Hold", // inav (was "Heading free")
   "Circle",
-  "RTH",
+  "NAV RTH", // inav (was "RTH")
   "Follow me",
   "Land",
   "Fly by wire A",
   "Fly by wire B",
-  "Cruise",
-  "Unknown"
+  "NAV Cruise", // inav (was "Cruise")
+  "Unknown",
+  "Launchmode", // inav
+  "Autotune" // inav
 };
 
 class LTMReader {
@@ -60,7 +54,9 @@ class LTMReader {
     short roll;
     short heading;
     uint16_t voltage;
+    uint16_t capacityUsed;
     unsigned char rssi;
+    unsigned char airspeed;
     bool armed;
     bool failsafe;
     unsigned char flightmode;
@@ -75,8 +71,11 @@ class LTMReader {
 
     int32_t homeLatitude;
     int32_t homeLongitude;
+    int32_t homeAltitude;
+    bool homeFix;
 
     uint8_t sensorStatus;
+    bool ltm_update;
 
   private:
     unsigned char readByte(uint8_t offset);

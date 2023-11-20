@@ -27,28 +27,30 @@ static const char* windrose[17]  {
   "W","WNW","NW","NNW","N"
 };
 
-// Flightmodes von Ardupilot?
+// Flightmodes for INAV: Modes not commented with inav are not used.
 static const char* flightModes[] = {
-  "Manual",
-  "Rate",
-  "Angle",
-  "Horizon",
+  "Manual", // inav 
+  "Acro", // inav (was "Rate") This is 'catch all' for everything else
+  "Angle", // inav 
+  "Horizon", // inav 
   "Acro",
   "Stabilized1",
   "Stabilized2",
   "Stabilized3",
-  "Altitude Hold",
-  "GPS Hold",
-  "Waypoints",
-  "Head free",
+  "Altitude Hold", // inav
+  "NAV Loiter" // inav (was "GPS Hold")
+  "NAV WP", // inav (was "Waypoints")
+  "Heading Hold", // inav (was "Heading free")
   "Circle",
-  "RTH",
+  "NAV RTH", // inav (was "RTH")
   "Follow me",
   "Land",
   "Fly by wire A",
   "Fly by wire B",
-  "Cruise",
-  "Unknown"
+  "NAV Cruise", // inav (was "Cruise")
+  "Unknown",
+  "Launchmode", // inav
+  "Autotune" // inav
 };
 
 class LTMReader {
