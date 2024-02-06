@@ -122,9 +122,9 @@ void ArtHor_SSD1306::drawHorizon(short roll, short pitch)
   if (pitch<0) {index_p=360+pitch;} else {index_p=pitch;};
   x1 = 32*cosinus[index]/1000+64;
   x2 = -32*cosinus[index]/1000+64;
-  hoehe = -32*sinus[index_p]/1000+32;
-  y1 = 32*sinus[index]/1000+hoehe;
-  y2 = -32*sinus[index]/1000+hoehe;
+  hoehe = -(display.height()/2)*sinus[index_p]/1000+(display.height()/2);
+  y1 = (display.height()/2)*sinus[index]/1000+hoehe;
+  y2 = -(display.height()/2)*sinus[index]/1000+hoehe;
   display.drawLine(x1, y1, x2, y2, SSD1306_WHITE);
   display.drawBitmap(display.width()/2-7,display.height()/2-2,plane_bmp,16,5,SSD1306_WHITE);
 }
